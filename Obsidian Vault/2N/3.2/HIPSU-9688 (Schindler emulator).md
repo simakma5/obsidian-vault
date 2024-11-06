@@ -23,6 +23,7 @@ Run app with debugging:
 ```bash
   npm run start-debug
 ```
+
 ## Functionality
 
 The emulator provides two services:
@@ -35,15 +36,18 @@ For the TCP communication, telnet or a TCP client, such as YAT, can be used.
 > [!WARNING] Message format
 > The emulator is implemented so that the message framing using hexadecimal characters STX (Hex 02) at the beginning and ETX (Hex 03) at the end is **compulsory**.
 > Using YAT: `<STX>[message]<ETX>` or `/h(02)[message]/h(03)`.
+
 ## Testing
 
 - Go through the [Schindler PORT API specification document](https://dev.2n.cz/secure/attachment/127112/ThirdPartyDatabase.pdf) and verify that the emulator responds to the implemented calls accordingly.
 - Document all discrepancies and report them in a comment to the JIRA issue.
+
 ## Currently implemented functions
 
 - `RX_I_AM_ALIVE`
 - `CHANGE_INSERT_PERSON_WITH_NACK`
 - `DELETE_PERSON_WITH_NACK`
+
 ## Functions
 
 | ID  | Function                       | Tx     | Rx     | Emulator response              |
@@ -62,6 +66,7 @@ For the TCP communication, telnet or a TCP client, such as YAT, can be used.
 | 11  | Set zone access ACK            | PORT   | Client | ERR: Unknown telegram type     |
 | 12  | Set zone access NACK           | PORT   | Client | ERR: Unknown telegram type     |
 | >12 | ~~None~~                       | Client | PORT   | ERR: Unknown telegram type     |
+
 ## Error codes
 
 | Code | Description                                           | Tested |
@@ -88,16 +93,19 @@ For the TCP communication, telnet or a TCP client, such as YAT, can be used.
 - [x] Invoking function ID 10 (Set zone access) should log the *Not implemented* error in the terminal rather than *Unknown telegram type*.
 - [x] Unimplemented (from chapter 9 of the specification): Maximum time without data activity by the third-party system results in idle timeout, i.e. PORT Technology closes the TCP connection and waits for a recovery from the third-party system.
 - [x] Data import using text files has not been implemented.
+
 ## Function ID 06 (Change/insert person with NACK) related issues
 
 - [x] The emulator doesn't send an ACK message after successful reception.
-- [x] The user-updated info log message in the terminal contains an uninterpreted format specifier `%d`, i.e. `Updated user ... (users in DB: %d)`.
+- [x] The user-updated info log message in the terminal contains an uninterpreted format specifier `%d`, i.e. `Updated user … (users in DB: %d)`.
 - [x] The following badge number property is not implemented in the emulator. The client can't even pass `ignore` as badge number 1 because it is implemented to accept hexadecimal numbers without exception.
+
 > If badge number 1 contains the text "ignore" (without quotation marks), the badges are not imported at all. For example, the assigned badge remains assigned without any change.
+
 - [ ] The functionality with putting "ignore" as badge number 1 works fine with updating existing users but when creating a new user, badge number 1 will just be set to "ignore" and badge numbers 2 and 3 are imported as well.
 - [ ] The following entry/exit date property is not implemented:
->The person is only inserted if the current date/time is between the entry date and the exit date. If the exit date is before the current date, the person is deleted.
 
+> The person is only inserted if the current date/time is between the entry date and the exit date. If the exit date is before the current date, the person is deleted.
 
 ## NACK messages-related issues
 
@@ -108,5 +116,5 @@ For the TCP communication, telnet or a TCP client, such as YAT, can be used.
 - [x] **Function ID 06 (Change/insert person with NACK)** doesn't handle the following cases:
 	- *Error code 06 (Card already assigned to another user)*
 	- *Error code 13 (Exit date is before entry date)*
-- [ ] The newly implemented Error `13|Entry date must be before exit date` works well with correct date comparison but is also thrown every time an incorrect date is inserted, such as `2024-13-00 34:17:05`. I suspect a date validation occurs within the program but is incorrectly displayed as a date comparison failure. 
+- [ ] The newly implemented Error `13|Entry date must be before exit date` works well with correct date comparison but is also thrown every time an incorrect date is inserted, such as `2024-13-00 34:17:05`. I suspect a date validation occurs within the program but is incorrectly displayed as a date comparison failure.
 - [x] **Function ID 09 (Delete person NACK)** sends a NACK message with function ID 05 instead of 09.

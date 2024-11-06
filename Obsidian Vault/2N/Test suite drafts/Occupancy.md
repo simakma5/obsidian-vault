@@ -22,6 +22,7 @@
 - [x] Test accuracy and timeliness of occupancy data received through SignalR.
 
 ### System log events
+
 - [x] Verify that system log events are created for occupancy events (e.g., *Occupancy limit reached - Area locked/unlocked*).
 - [x] Check the content and format of the system log records.
 
@@ -44,14 +45,17 @@
 - [x] Confirm that the system handles exceptions correctly and overrides default occupancy rules.
 
 ### Stress Testing
+
 - [x] Omitted due to the reported limited usage of occupancy across all customers.
 
 ## Error Handling and Validation Tests
 
 ### API Error Handling
+
 - [x] Test API calls with invalid parameters, incorrect authentication credentials, and other error conditions.
 - [x] Verify that the API returns appropriate error codes and messages.
 
 ### Data Validation
+
 - [x] Validate the data integrity of occupancy information retrieved through the API and SignalR.
 - [x] Check for inconsistencies, data corruption, or unexpected values.

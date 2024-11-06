@@ -4,63 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "7e060c29e50668a7",
+        "id": "5fb503bd6b6114fa",
         "type": "tabs",
         "children": [
           {
-            "id": "b18679af1196d49e",
+            "id": "bd8af7bf7cb40d25",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Memory notes.md",
+                "file": "Thesis/Design notes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Memory notes"
-            }
-          },
-          {
-            "id": "05483dbd595e1ffc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Thesis/Email correspondence.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Email correspondence"
-            }
-          },
-          {
-            "id": "fa01ab0977086b31",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "2N/Test suite drafts/Occupancy.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Occupancy"
-            }
-          },
-          {
-            "id": "115ee0915b9a3426",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "2N/Test suite drafts/Attendance.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Attendance"
+              "title": "Design notes"
             }
           }
         ]
@@ -182,13 +140,23 @@
               "icon": "lucide-list",
               "title": "Outline"
             }
+          },
+          {
+            "id": "71a607b3a8ecf68c",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -196,23 +164,28 @@
       "canvas:Create new canvas": false,
       "graph:Open graph view": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b18679af1196d49e",
+  "active": "bd8af7bf7cb40d25",
   "lastOpenFiles": [
-    "Workout routines.md",
-    "To-do list.md",
-    "Memory notes.md",
     "Thesis/Email correspondence.md",
+    "Thesis/Design notes.md",
+    "Thesis/Current objectives.md",
     "Taiwan/Trip ideas.md",
     "Taiwan/Travelogues/Round-trip vacation.md",
+    "Journey to the West/Volume 1.md",
+    "2N/Feature testing.md",
+    "2N/Test suite drafts/Occupancy.md",
+    "2N/Test suite drafts/Attendance.md",
+    "2N/3.2/HIPSU-9688 (Schindler emulator).md",
+    "2N/3.2/Feature tests 3.2.md",
+    "Memory notes.md",
+    "Workout routines.md",
+    "To-do list.md",
     "Taiwan/Bucket list.md",
     "Taiwan/Souvenirs.md",
-    "Journey to the West/Volume 1.md",
-    "2N/3.2/Feature tests 3.2.md",
-    "2N/3.2/HIPSU-9688 (Schindler emulator).md",
-    "Thesis/Design notes.md",
     "Google Keep/Catching up on theory.md",
     "Google Keep/Wish list.md",
     "Google Keep/Závazky a pohledávky.md",
@@ -221,10 +194,6 @@
     "Google Keep/Research office (EE-714).md",
     "Google Keep/Remember.md",
     "Google Keep/Oral chinese.md",
-    "2N/Test suite drafts/Occupancy.md",
-    "2N/Test suite drafts/Attendance.md",
-    "Thesis/Current objectives.md",
-    "2N/Feature testing.md",
     "Google Keep/Taiwan finances.md",
     "Google Keep/Packning.md",
     "Pasted image 20241031135539.png",

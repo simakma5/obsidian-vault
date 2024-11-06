@@ -79,15 +79,17 @@
 	- [ ] Both exports show correct first and last access (from and to), balance, hours worked and comments for **all individual days**.
 
 ## TBD
--  [Non-export attendance regression cases](https://testrail.2n.cz/index.php?/suites/view/5&group_by=cases:section_id&group_order=asc&display_deleted_cases=0&group_id=479)
+
+- [Non-export attendance regression cases](https://testrail.2n.cz/index.php?/suites/view/5&group_by=cases:section_id&group_order=asc&display_deleted_cases=0&group_id=479)
 - Bugs from previous releases
-	- https://dev.2n.cz/browse/HIPSU-7382
-	- https://dev.2n.cz/browse/HIPSU-7659
-	- https://dev.2n.cz/browse/HIPSU-7645
-	- https://dev.2n.cz/browse/HIPSU-7982
-	- https://dev.2n.cz/browse/HIPSU-8040
-	- https://dev.2n.cz/browse/HIPSU-7988
-	- https://dev.2n.cz/browse/HIPSU-7877
+	- <https://dev.2n.cz/browse/HIPSU-7382>
+	- <https://dev.2n.cz/browse/HIPSU-7659>
+	- <https://dev.2n.cz/browse/HIPSU-7645>
+	- <https://dev.2n.cz/browse/HIPSU-7982>
+	- <https://dev.2n.cz/browse/HIPSU-8040>
+	- <https://dev.2n.cz/browse/HIPSU-7988>
+	- <https://dev.2n.cz/browse/HIPSU-7877>
 
 ## JIRA issue
-https://dev.2n.cz/browse/AUT-583
+
+<https://dev.2n.cz/browse/AUT-583>

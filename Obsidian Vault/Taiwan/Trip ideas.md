@@ -44,7 +44,7 @@
 	- [Mount Keelung Trail](https://maps.app.goo.gl/p6Tv6Qh3ea4C3XNA9)
 	- Plenty other options nearby
 
-#  Xinyi shopping district (day/half-day trip, weekday)
+# Xinyi shopping district (day/half-day trip, weekday)
 
 It's best to start this trip by going to Taipei's 101 observatory deck early in the morning for two reasons: to get there before the crowds (especially on the weekend) and because visibility tends to be best in the morning and evening.
 
@@ -55,7 +55,7 @@ It's best to start this trip by going to Taipei's 101 observatory deck early in 
 
 # Keelung (day trip)
 
->[!tip] Bring a swimsuit to be able to enjoy the GeoPark sea resort
+> [!tip] Bring a swimsuit to be able to enjoy the GeoPark sea resort
 
 1. Take a morning bus$^1$ from Taipei to Keelung
 2. Walk around the Maritime Plaza
@@ -79,31 +79,44 @@ It's best to start this trip by going to Taipei's 101 observatory deck early in 
 
 > [!warning] $^2$Heping to Keelung buses
 > The bus stops around Zhengbin are super awkward as much as the routes themselves and I'd managed to get confused by them both times I went there, to the point of aimlessly waiting for a bus towards the Keelung centre. Watch out for that as even the most trusty of public transport companions such as *Bus+* can let you down with their real-time infromation service.
+
 # Smaller trips
 
 ### Tea house experience
+
 - Wistaria or other teahouse
 - Old man's shop
+
 ### Cultural landmarks
+
 - Taipei 101
 - Chiang Kai-shek Memorial Hall
+
 ### Museums
+
 - National Palace Museum
 - National Taiwan Museum
+
 ### Trails
+
 - Elephant mountain
 - Jinmianshan
 - Yangminshan trails
+
 ### Seaside
+
 - Tamsui
 - Keelung
 - Fulong
+
 ### Longer distance trips (more than one day)
+
 - Tainan
 - Kaohsiung
 - Yilan: [Waiao Beach](https://maps.app.goo.gl/xKeeT78E4xsDKNfEA)
 
 # Miscellanious
+
 - Nightmarkets: Ximen, Raohe
 - Clubs: Studio9, Maji Square
 - Bars: Revolver, the one we visited with Radek
@@ -113,6 +126,7 @@ It's best to start this trip by going to Taipei's 101 observatory deck early in 
 - Massage
 
 ## Cuisine
+
 - Noodles: [Fuhong Beef Noodles](https://maps.app.goo.gl/X4evQBbxoUdpdurN9)
 - Xiaolongbao: [Qin Wei Guan](https://maps.app.goo.gl/zMrzTrRWFyyvCvzG9)
 - Hotpot: the place near Taipei 101

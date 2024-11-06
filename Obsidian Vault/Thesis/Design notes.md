@@ -1,9 +1,10 @@
 This file serves as a centralized repository for design notes, capturing insights, intermediate findings, and reminders throughout the project's design phase. It acts as a living document, evolving alongside the project's development.
 
 > [!info]- Reverting simulation to earlier stages
-> The design flow needs to be adjusted so that the polarizer outlet is aligned with the $z=0$ plane. This is because when defining an $E$-field probe in CST Studio Suite at a parametrized position, e.g., `(0,0,PolarizerLength)` if we started modelling from the polarizer input, the results from the probe don’t update automatically with parameter change in template-based post-processing. By working backwards from the polarizer outlet to the feeding section, we can run verification simulations at each stage simply by defining a different excitation port and keeping the probe at `(0,0,0)`.
-> 
+> The design flow needs to be adjusted so that the polarizer outlet is aligned with the $z=0$ plane. This is because when defining an $E$-field probe in CST Studio Suite at a parametrized position, e.g., `(0,0,PolarizerLength)` if we started modelling from the polarizer input, the results from the probe don't update automatically with parameter change in template-based post-processing. By working backwards from the polarizer outlet to the feeding section, we can run verification simulations at each stage simply by defining a different excitation port and keeping the probe at `(0,0,0)`.
+>
 > However, this approach introduces other challenges, as having two ports at different locations within the cavity disrupts wave propagation. Consequently, the simulation step for each stage (labelled `x.1` for `Stage x`) becomes incompatible during later stages of the design process. Although backward verification by returning to earlier stages remains possible, this is done by keeping the previous simulation setups hidden in the history list. Reverting is achieved by un-hiding the relevant section and hiding all subsequent sections.
+>
 > > [!question] Maybe I can always just change the port to monitor-only?
 
 # 1 Polarizer
@@ -30,7 +31,7 @@ This section details the modelling of the polarizer.
 > - **Inner dimensions:** 40.39 x 20.19 mm
 > - **Recommended frequency:** 4.90 to 7.05 GHz
 > - **Cutoff frequency lowest mode:** 3.71 GHz
-> 
+>
 > > [!quote] Operating band - rule of thumb
 > > [Waveguide Mathematics | Microwaves101](https://www.microwaves101.com/encyclopedias/waveguide-mathematics)
 > > The accepted limits of operation for rectangular waveguides are (approximately) between 125% and 189% of the lower cutoff frequency. Thus for WR-90, the cutoff is 6.557 GHz, and the accepted band of operation is 8.2 to 12.4 GHz. Remember, at the lower cutoff, the guide simply stops working.
@@ -51,11 +52,13 @@ Assuming that the mode phase lag per unit length is roughly length-invariant, we
 
 > [!note] Mode phase lag per unit length
 > The assumption that the mode phase lag per unit length remains constant is likely an oversimplification which helps with rough calculations. It seems more likely that the propagation constants of individual modes change as the wave travels down the polarizer, causing the second derivative of mode phase lag with respect to length to be non-zero, i.e. mode phase lag per unit length not to be length-invariant.
+>
 > > [!success] It seems to be pretty much a negligible error!
 
 # 2 Waveguide feed
 
 The following is a validation stage where the polarizer is fed by an ordinary TE10 or TE01 wave guided by a square waveguide. This waveguide is just a short section flared open at the input end which facilitates an easy possibility to provide a linear polarization at the polarizer's input and verify the tuning performed in the previous step.
+
 ## 2.1 Waveguide feed simulation
 
 The feeding waveguide is excited by an ordinary waveguide port with two modes at the input. Thanks to the square, i.e., symmetrical, cross-section of the waveguide, the two excited modes (TE10 and TE01) propagate with identical wave vectors $\boldsymbol{k}$ and cutoff frequencies. These two modes differ only in their field orientation, one propagating with a vertical electric field and the other horizontal. Each of them should produce LHCP and RHCP polarizations at the polarizer's output, respectively, or vice versa.
@@ -76,7 +79,7 @@ This stage is very complex as it concerns designing a dual feeding structure for
 
 The design principally follows the work of [Karki et al.](https://ieeexplore.ieee.org/document/9933815), which tackles the same issue by displacing the two probes a certain distance along the propagation direction and using a grating of wires parallel to the second probe. This serves as its back-short while having very little influence on the wave propagation from Probe 1 and helping with crosstalk minimization.
 
-- S. K. Karki, J. Ala-Laurinaho and V. Viikari, "Dual-Polarized Probe for Planar Near-Field Measurement," in _IEEE Antennas and Wireless Propagation Letters_, vol. 22, no. 3, pp. 576-580, March 2023, doi: 10.1109/LAWP.2022.3218731.
+- S. K. Karki, J. Ala-Laurinaho and V. Viikari, "Dual-Polarized Probe for Planar Near-Field Measurement," in *IEEE Antennas and Wireless Propagation Letters*, vol. 22, no. 3, pp. 576-580, March 2023, doi: 10.1109/LAWP.2022.3218731.
 
 As is the common practice, the specific values stated in the paper are most likely scrambled to protect the design's uniqueness. It is apparent when double-checking the values with devised theoretical guidelines laid out of the design process description. The table below serves as a reference to the values mentioned by the authors and their alleged logical origin (where applicable).
 
@@ -98,38 +101,38 @@ As is the common practice, the specific values stated in the paper are most like
 
 ## 3.1 Single feed
 
+> [!question] Air or PTFE coax in the waveguide drilling hole?
+> So far, I have modelled the coax transition so that the PTFE reaches into the drilling hole, meaning that, in order to preserve $50\ \Omega$ impedance, the drilling hole diameter is basically the same as the diameter of the SMA coax outer conductor.
+
 The first step is a textbook practise on designing a simple right-angle transition using the general guidelines taken from the website Microwaves101 and noted below.
 
 > [!quote]- Right-angle transition (rectangular waveguide)
 > [Waveguide to coax transitions | Microwaves101](https://www.microwaves101.com/encyclopedias/waveguide-to-coax-transitions)
 > These are also known as $E$-plane transitions or orthogonal transitions. The waveguide is interfaced with a coaxial cable by using a simple antenna probe reaching a certain height into the waveguide to excite the preferred TE01 waveguide mode. A "back-short" is positioned some distance away from the probe. It reflects EM energy that was propagating the wrong way back toward the probe where it combines in-phase with the incident wave. Thus the probe sets up a time-varying electric field, which is constrained to propagate down the guide.
-> 
+>
 > > [!note] Coax to antenna probe transition
 > > While the outer conductor and insulation of the feeding coax are terminated at the waveguide's outer wall, the inner conductor extends through a drilled hole, forming a section of air-filled coaxial line with a length equal to the thickness of the waveguide's wall. To minimize impedance discontinuities and secure the signal integrity as it propagates to the antenna probe, it is important to select the radius of the drilled hole, which acts as the outer conductor for this section so that the air-filled coax has an impedance close to $50\ \Omega$.
-> > 
+> >
 > > This also means that, when stripping the feeding coax of its outer conductor and dielectric, it is necessary to account for the air-filled coax length by removing a total length of `WaveguideThickness` + `Probe1Length`.
-> 
+>
 > The probe's **distance from the back-short** is usually somewhat smaller than a quarter of a guide wavelength at center frequency. In free space (outside the waveguide), the distance to the backshort would be more than a quarter wavelength but all analyses of waveguides should be done from inside the guide, not looking at it from outside. Note that the wavefront in the guide appears to move faster than the speed of light, which is why the guide wavelength is more than in free space (remember, $v = f \cdot \lambda$).
-> 
+>
 > > [!quote] Guide wavelength $\lambda_{\mathrm{g}}$
 > > [Waveguide Mathematics | Microwaves101](https://www.microwaves101.com/encyclopedias/waveguide-mathematics)
 > > Guide wavelength is defined as the distance between two equal-phase planes along the waveguide. The guide wavelength is a function of the operating wavelength $\lambda_0$ (or frequency $f_0$) and the lower cutoff wavelength $\lambda_{\mathrm{cutoff}}$ and is always longer than the wavelength would be in free space. Here's the equation for guide wavelength:
 > > $$\lambda_{\mathrm{g}} = \dfrac{\lambda_0}{\sqrt{1-\left(\dfrac{\lambda_0}{\lambda_{\mathrm{cutoff}}}\right)^2}},$$
 > > where $\lambda_{\mathrm{cutoff}} = 2A$ generally, $A$ is `PolarizerSide`.
-> > 
+> >
 > > For $f_0 = 5.5\ \mathrm{GHz}$ ($\sim \lambda_0 \approx 54.51\ \mathrm{mm}$) and $A = 50\ \mathrm{mm}$,
-> $$\lambda_{\mathrm{g}} = \dfrac{54.51}{\sqrt{1-\left(\dfrac{54.51}{2\cdot 50}\right)^2}} \approx 65.02\ \mathrm{mm}.$$
-> 
+> >
+> > $$\lambda_{\mathrm{g}} = \dfrac{54.51}{\sqrt{1-\left(\dfrac{54.51}{2\cdot 50}\right)^2}} \approx 65.02\ \mathrm{mm}.$$
+>
 > The coax is typically $50\ \Omega$ impedance, whereas the waveguide might be $200\ \Omega$. Actually, the impedance of a waveguide is a complicated subject, there are three ways to calculate it, and it is a strong function of frequency. Therefore, some tuning must be applied. The tuning can be in the form of screws, or position of the probe, or the distance to the back short.
 >
 > What about the **length of the probe**, compared to the wavelength? The lower TE01 cutoff of a guide occurs when the broad dimension is half-wavelength in free space. At the centre of the band, the broad dimension is 3/4 wavelength, and the narrow dimension is (typically) 3/8 wavelength. The probe is typically 1/2 the narrow dimension in length, or 3/16 wavelength at centre frequency. However, this is also a parameter that can be varied to optimize a design, along with the diameter of the probe and whether it retains a dielectric jacket or is bare.
-> 
+>
 > > [!warning] Probe radius tuning
 > > The inner conductor of the air-filled coax is assumed to maintain the same diameter as the inner conductor of the preceding coaxial cable. To avoid impedance discontinuities, if adjustments to the probe's radius are needed during manufacturing (e.g., using a lathe), it is crucial to preserve the radius of this section. This can be achieved by marking the distance corresponding to the thickness of the waveguide after the insulation has been removed.
-> 
-
-> [!question] Air or PTFE coax in the waveguide drilling hole?
-> So far, I have modelled the coax transition so that the PTFE reaches into the drilling hole, meaning that, in order to preserve $50\ \Omega$ impedance, the drilling hole diameter is basically the same as the diameter of the SMA coax outer conductor.
 
 ### Effects of individual parameters
 
@@ -157,7 +160,7 @@ The following notes down intermediate simulation results from different sweeps a
 	- `Probe1Distance`: {14, 15, 16, 17, 18} mm
 	- `Probe1Length`: {8, 9, 10, 11, 12 ,13} mm
 	- `WaveguideLength`: 130 mm
-	- **S-parameters:** Significant changes, yet inconclusive due to many parameter variations 
+	- **S-parameters:** Significant changes, yet inconclusive due to many parameter variations
 	- **Radiation pattern:** Variations are small, the originally estimated values have been chosen for good performance.
 
 > [!info]- Radiation pattern (irrelevant)
@@ -181,7 +184,14 @@ The table below shows the theoretical values of the single feed parameters expre
 Apart from the geometrical parameters of the probe, `WaveguideLength` also directly impacts the reflection. This has neither a general guideline nor a direct impact on the waveform of the resulting S-parameters but it shifts the graph in frequency. This allows for the choice of a value that is convenient enough that the minima fits into the design frequency band. However, the final value must account for the practical aspect of leaving enough space for further modelling the grating polarizer and Port 2. Following the guideline values of the individual parts, the overall waveguide length was set to $140\ \mathrm{mm}$, which should accommodate the whole design nicely.
 
 > [!note] Choice of waveguide length
-> The consideration reasoning and the following choice come from adding up all distances (Port 1 to back-short, grating to Port 1, and Port 2 to grating) and leaving one whole guide wavelength of the generated wave propagation settling, i.e., $$\lambda_{\mathrm{g}}/4 + 3\lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}} = 9\lambda_{\mathrm{g}}/4 \approx 146.28\ \mathrm{mm},$$ which, rounded down to the nearest order of tens, is the finally chosen number. 
+>
+> The consideration reasoning and the following choice come from adding up all distances (Port 1 to back-short, grating to Port 1, and Port 2 to grating) and leaving one whole guide wavelength of the generated wave propagation settling, i.e.,
+>
+> $$
+> \lambda_{\mathrm{g}}/4 + 3\lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}} = 9\lambda_{\mathrm{g}}/4 \approx 146.28\ \mathrm{mm},
+> $$
+>
+> which, rounded down to the nearest order of tens, is the finally chosen number.
 
 ### Result
 
@@ -215,11 +225,14 @@ In terms of reflection coefficient, the addition of grating seems to dampen the 
 Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < \xi\ \mathrm{dB}$
 
 # WIP current state: The grating distance sweep is shite.
+
 - Distance $3\lambda_{\mathrm{g}}/4$ includes a large resonant peak around 5.7 GHz
 - Lower values push out the resonant peaks but are still not good enough around the band's edges.
 - Sweep results exported
 - Combined optimization w.r.t. `Probe1Length`, `Probe1Distance`, and `GratingDistance` to be launched minimizing the reflection. Next time when I've got the internet for it lol.
+
 ## WIP Design process
+
 1. Hide all the modelling steps after drawing Probe 1
 2. Optimize Probe 1 properties isolated because Probe 2 ideally shouldn't affect Probe 1 reflection
 3. Unhide the drawing of the grating
