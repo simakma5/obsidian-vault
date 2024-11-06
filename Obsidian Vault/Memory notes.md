@@ -1,0 +1,1 @@
+- CTU license server for CST: 27000@lic1.elmag.org
