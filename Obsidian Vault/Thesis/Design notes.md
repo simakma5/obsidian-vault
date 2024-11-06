@@ -214,29 +214,12 @@ As Karki et al. describe in their paper, the progression of $|S_{11}|$ with incr
 
 Although it might seem compelling to conclude that $s \approx \lambda_{\mathrm{g}}/4$ is the best candidate with respect to the low reflection and reasonable size (i.e., fabrication cost) there is another effect of varying $s$ on the feed's performance which is also the core idea of the feeding probes' displacement: minimizing crosstalk $|S_{21}|$. The mutual probe coupling decreases inversely proportional to their distance, ergo to the distance between Port 1 and the grating as well. However, the effect of diminishing $|S_{21}|$ with increasing distance begins to sature around distance somewhat larger than $s = \lambda_{\mathrm{g}}/2$, resulting in the second reflection minimum at $3\lambda_{\mathrm{g}}/4$ being a reasonable tradeoff between minimizing both $|S_{11}|$ and $|S_{21}|$.
 
-| Parameter        | Guideline                 | Theoretical value    | Optimal value      |
-| ---------------- | ------------------------- | -------------------- | ------------------ |
-| Grating distance | $3\lambda_{\mathrm{g}}/4$ | $48.76\ \mathrm{mm}$ | $\xi\ \mathrm{mm}$ |
+| Parameter        | Guideline                 | Theoretical value    | Optimal value                   |
+| ---------------- | ------------------------- | -------------------- | ------------------------------- |
+| Grating distance | $3\lambda_{\mathrm{g}}/4$ | $48.76\ \mathrm{mm}$ | $\texttt{unknown}\ \mathrm{mm}$ |
 
 ### Result
 
 In terms of reflection coefficient, the addition of grating seems to dampen the dips in the design band and introduce new resonant peaks slightly outside the band.
 
 Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < \xi\ \mathrm{dB}$
-
-# WIP current state: The grating distance sweep is shite.
-
-- Distance $3\lambda_{\mathrm{g}}/4$ includes a large resonant peak around 5.7 GHz
-- Lower values push out the resonant peaks but are still not good enough around the band's edges.
-- Sweep results exported
-- Combined optimization w.r.t. `Probe1Length`, `Probe1Distance`, and `GratingDistance` to be launched minimizing the reflection. Next time when I've got the internet for it lol.
-
-## WIP Design process
-
-1. Hide all the modelling steps after drawing Probe 1
-2. Optimize Probe 1 properties isolated because Probe 2 ideally shouldn't affect Probe 1 reflection
-3. Unhide the drawing of the grating
-4. Optimize the grating distance w.r.t. Probe 1 reflection because Probe 2 reflection shouldn't be affected by the grating if Probe 2 distance will be OK
-5. Draw Probe 2 and initialize it with same properties as Probe 1
-6. Tune Probe 2 properties, probably mostly the distance from grating
-7. Tune grating wires' radii, spacing and amount
