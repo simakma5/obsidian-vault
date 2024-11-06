@@ -120,7 +120,9 @@ The first step is a textbook practise on designing a simple right-angle transiti
 > > [!quote] Guide wavelength $\lambda_{\mathrm{g}}$
 > > [Waveguide Mathematics | Microwaves101](https://www.microwaves101.com/encyclopedias/waveguide-mathematics)
 > > Guide wavelength is defined as the distance between two equal-phase planes along the waveguide. The guide wavelength is a function of the operating wavelength $\lambda_0$ (or frequency $f_0$) and the lower cutoff wavelength $\lambda_{\mathrm{cutoff}}$ and is always longer than the wavelength would be in free space. Here's the equation for guide wavelength:
+> >
 > > $$\lambda_{\mathrm{g}} = \dfrac{\lambda_0}{\sqrt{1-\left(\dfrac{\lambda_0}{\lambda_{\mathrm{cutoff}}}\right)^2}},$$
+> >
 > > where $\lambda_{\mathrm{cutoff}} = 2A$ generally, $A$ is `PolarizerSide`.
 > >
 > > For $f_0 = 5.5\ \mathrm{GHz}$ ($\sim \lambda_0 \approx 54.51\ \mathrm{mm}$) and $A = 50\ \mathrm{mm}$,
@@ -187,9 +189,7 @@ Apart from the geometrical parameters of the probe, `WaveguideLength` also direc
 >
 > The consideration reasoning and the following choice come from adding up all distances (Port 1 to back-short, grating to Port 1, and Port 2 to grating) and leaving one whole guide wavelength of the generated wave propagation settling, i.e.,
 >
-> $$
-> \lambda_{\mathrm{g}}/4 + 3\lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}} = 9\lambda_{\mathrm{g}}/4 \approx 146.28\ \mathrm{mm},
-> $$
+> $$\lambda_{\mathrm{g}}/4 + 3\lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}} = 9\lambda_{\mathrm{g}}/4 \approx 146.28\ \mathrm{mm},$$
 >
 > which, rounded down to the nearest order of tens, is the finally chosen number.
 

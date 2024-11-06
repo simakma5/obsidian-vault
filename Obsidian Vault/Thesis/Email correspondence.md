@@ -359,11 +359,17 @@ Pavel Hazdra
 	- Good to know though!
 
 > Lze předpokládat, že vybuzenou monochromatickou vlnu v polarizéru lze popsat jako klasickou vedenou vlnu šířící se ve směru osy z, tj.
+>
 > $$\boldsymbol{E}(x,y,z,t) = \boldsymbol{E}_0(x,y)*\exp(-\mathrm{i}(kz-\omega t),$$
+>
 > kde
-$$k = \beta-\mathrm{i}\alpha$$
+>
+> $$k = \beta-\mathrm{i}\alpha$$
+>
 > je komplexní vlnové číslo, kde $\beta$ je fázová konstanta a $\alpha$ je konstanta útlumu. Proto bychom z definice S-parametrů měli být schopni psát
+>
 > $$S_{21} = \exp(-\mathrm{i}kL),$$
+>
 > kde $L$ je délka polarizéru/vlnovodu. Po rozepsání vlnového čísla v exponenciále by tak mělo platit, že rozdíl fází $S_{21}$ prvního a druhého módu (v CST zápis `S2(1),1(1)` a `S2(2),1(2))` dává rozdíl jejich fázových konstant násobený délkou polarizéru, tj. přímo fázové zpoždění módů.
 
 Ano, to dává smysl. Alfa bych s klidem považoval = 0.

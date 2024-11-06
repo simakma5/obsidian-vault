@@ -196,7 +196,7 @@
       "enabled": true
     },
     "empty-line-around-math-blocks": {
-      "enabled": false
+      "enabled": true
     },
     "empty-line-around-tables": {
       "enabled": true
