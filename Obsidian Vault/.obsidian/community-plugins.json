@@ -3,5 +3,7 @@
   "obsidian-minimal-settings",
   "obsidian-hider",
   "obsidian-git",
-  "obsidian-linter"
+  "obsidian-linter",
+  "better-word-count",
+  "copilot"
 ]

@@ -1,8 +1,3 @@
-- Keep recording [[Email correspondence]] with Hazdra
-- Keep making [[Design notes]]
-- Convert TBPP into export with Matlab or Python processing
-- Model the second coax separately
-- "Practise" coax to waveguide transitions in a separate project
 - Find some fabrication companies
 
 ## Read up on waveguides

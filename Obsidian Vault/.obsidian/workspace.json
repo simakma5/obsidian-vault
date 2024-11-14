@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "5fb503bd6b6114fa",
+        "id": "7b6502afd08455a9",
         "type": "tabs",
         "children": [
           {
-            "id": "bd8af7bf7cb40d25",
+            "id": "e4f733d4b24744c6",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -47,6 +47,16 @@
             }
           },
           {
+            "id": "3278cfa3311b059f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          },
+          {
             "id": "0f9d39e815d5f333",
             "type": "leaf",
             "state": {
@@ -62,22 +72,12 @@
               "icon": "lucide-search",
               "title": "Search"
             }
-          },
-          {
-            "id": "3278cfa3311b059f",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {},
-              "icon": "lucide-bookmark",
-              "title": "Bookmarks"
-            }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 277.5
+    "width": 281.5
   },
   "right": {
     "id": "146d1f00e747bc90",
@@ -93,6 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Thesis/Design notes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for Design notes"
             }
           },
           {
@@ -111,11 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Thesis/Design notes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Design notes"
             }
           },
           {
@@ -136,9 +138,11 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {},
+              "state": {
+                "file": "Thesis/Design notes.md"
+              },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Design notes"
             }
           },
           {
@@ -150,39 +154,53 @@
               "icon": "git-pull-request",
               "title": "Source Control"
             }
+          },
+          {
+            "id": "538f40c1118b8978",
+            "type": "leaf",
+            "state": {
+              "type": "copilot-chat-view",
+              "state": {},
+              "icon": "message-square",
+              "title": "Copilot"
+            }
           }
         ],
         "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 405.5
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
-      "canvas:Create new canvas": false,
+      "switcher:Open quick switcher": true,
       "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "obsidian-git:Open Git source control": false
+      "command-palette:Open command palette": true,
+      "obsidian-git:Open Git source control": true,
+      "copilot:Copilot Chat": false
     }
   },
-  "active": "bd8af7bf7cb40d25",
+  "active": "e4f733d4b24744c6",
   "lastOpenFiles": [
-    "Thesis/Email correspondence.md",
-    "Thesis/Design notes.md",
     "Thesis/Current objectives.md",
-    "Taiwan/Trip ideas.md",
-    "Taiwan/Travelogues/Round-trip vacation.md",
-    "Journey to the West/Volume 1.md",
-    "2N/Feature testing.md",
-    "2N/Test suite drafts/Occupancy.md",
-    "2N/Test suite drafts/Attendance.md",
-    "2N/3.2/HIPSU-9688 (Schindler emulator).md",
-    "2N/3.2/Feature tests 3.2.md",
+    "Tea/Untitled.md",
+    "Thesis/Design notes.md",
+    "Thesis/Email correspondence.md",
     "Memory notes.md",
     "Workout routines.md",
+    "2N/3.2/Feature tests 3.2.md",
+    "2N/3.2/HIPSU-9688 (Schindler emulator).md",
+    "2N/Test suite drafts/Attendance.md",
+    "2N/Test suite drafts/Occupancy.md",
+    "2N/Feature testing.md",
+    "Journey to the West/Volume 1.md",
+    "Taiwan/Travelogues/Round-trip vacation.md",
+    "Taiwan/Trip ideas.md",
+    "Untitled",
+    "Tea",
     "To-do list.md",
     "Taiwan/Bucket list.md",
     "Taiwan/Souvenirs.md",
@@ -195,7 +213,6 @@
     "Google Keep/Remember.md",
     "Google Keep/Oral chinese.md",
     "Google Keep/Taiwan finances.md",
-    "Google Keep/Packning.md",
     "Pasted image 20241031135539.png",
     "Untitled.canvas",
     "2N/Test suite drafts",
@@ -206,8 +223,6 @@
     "Taiwan",
     "Journey to the West",
     "2N/3.2",
-    "2N",
-    "Thesis",
-    "Temporary"
+    "2N"
   ]
 }

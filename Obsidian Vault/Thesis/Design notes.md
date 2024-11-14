@@ -66,14 +66,14 @@ The feeding waveguide is excited by an ordinary waveguide port with two modes at
 > [!info]- Theoretical explanation
 > The previously tracked metrics now serve as a secondary evaluation method. By defining an $E$-field monitor at the centre frequency, we can observe how the time variations of the electric field on a cutting plane perpendicular to the $k$-axis evolve as the value of $k$ increases, i.e., as we move further into the polarizer. Initially, at the input, the field exhibits pulsating behaviour corresponding to a single sine wave, but at the output, it transitions to a pattern where the pulses cease, and the electric field vectors trace circular paths. This pattern evolution corresponds to the core concept that the polarizer "obstructs" the incident wave propagation via the triangular prisms, breaking its linear polarization into two modes, each with different propagation properties, namely the phase constant. At the polarizer output, the two modes are of close-to-equal magnitudes and are mutually delayed in phase by $\pi/4$.
 
-## 2.2 Open-ended radiation
+# 3 Open-ended radiation
 
 Since the polarizer alone does not efficiently radiate outward from its structure, it is necessary to incorporate an additional square outlet to guide the circularly polarized wave. This modification allows for the evaluation of far-field properties of the emitted wave, such as the radiation pattern and axial ratio.
 
 > [!note] Outlet length
 > A parameter sweep of `OutletLength` from 30 mm to 100 mm, in 10 mm increments, demonstrated that variations in far-field properties are negligible. As a result, further optimization of this parameter is unnecessary. However, including at least the 30 mm square waveguide section is recommended, as the difference between having no outlet and a 30 mm outlet is the only significant impact observed.
 
-# 3 Dual feed
+# 4 Dual feed
 
 This stage is very complex as it concerns designing a dual feeding structure for realistic excitation of the propagation modes. Each mode introduced into the polarizer via the waveguide feed added during the previous stages must be excited by a coaxial probe protruding into the waveguide cavity through a side wall. The common approach to achieving a coax-to-waveguide transition is the **right-angle transition**.
 
@@ -99,7 +99,7 @@ As is the common practice, the specific values stated in the paper are most like
 
 > [!warning] I am assuming that when the authors mention $\lambda$, they mean $\lambda_{\mathrm{g}}$.
 
-## 3.1 Single feed
+## 4.1 Single feed
 
 > [!question] Air or PTFE coax in the waveguide drilling hole?
 > So far, I have modelled the coax transition so that the PTFE reaches into the drilling hole, meaning that, in order to preserve $50\ \Omega$ impedance, the drilling hole diameter is basically the same as the diameter of the SMA coax outer conductor.
@@ -199,7 +199,7 @@ For the reasons outlined above, the parameter `WaveguideLength` was kept at the 
 
 Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < -12.4\ \mathrm{dB}$.
 
-## 3.2 Grating
+## 4.2 Grating
 
 The next step, which can still be considered isolated from the second probe design, is the addition of grating. This section aims to draw a prototype wire grating to optimise its distance from Probe 1 with respect to $|S_{11}|$, i.e., the reflection when feeding from Port 1. Such an approach should yield a reduction of variables for the final, combined optimization as this parameter should only affect Probe 1 as the grating ideally acts simply as a shorting wall for Probe 2. Radii and gaps in the grating are subject to the combined optimization as its parameters will be set to produce a tradeoff between minimizing Probe 2 reflection and mutual crosstalk between probes.
 
@@ -223,3 +223,5 @@ Although it might seem compelling to conclude that $s \approx \lambda_{\mathrm{g
 In terms of reflection coefficient, the addition of grating seems to dampen the dips in the design band and introduce new resonant peaks slightly outside the band.
 
 Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < \xi\ \mathrm{dB}$
+
+## 4.3 Second feed
