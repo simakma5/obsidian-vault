@@ -17,11 +17,11 @@ This section details the modelling of the polarizer.
 	5 to 6 GHz, $f_{\mathrm{c}} = 5.5\ \mathrm{GHz} \sim \lambda_{\mathrm{c}} \approx 54.51\ \mathrm{mm}$
 - [x] *Find a reference recommended frequency range among commercial polarizers*
     WR159
-- [x] *Determine `PolarizerSide` to match the lowest mode cutoff with the reference*
+- [x] *Determine `polarizerSide` to match the lowest mode cutoff with the reference*
     50 mm
-- [x] *Determine `ChamferWidth`*
+- [x] *Determine `chamferWidth`*
     24 mm (1.21 ratio, 67.43 deg lag on 100 mm length, 3.66 GHz cutoff)
-- [x] *Determine `PolarizerLength`*
+- [x] *Determine `polarizerLength`*
     134 mm
 - [x] *Put in all the numbers and verify by final polarizer simulation*
 
@@ -46,9 +46,9 @@ The following section puts a feeding port to the input of the polarizer for trac
 Both of these metrics are proportional to the `ChamferWidth` parameter since introducing a larger obstacle into the waveguide cavity leads to overall greater differences between the propagating modes. This creates the necessity of a trade-off during this design step. Striving to achieve mode amplitude equality also means yielding a very low mode phase lag per unit length. This requires the resulting polarizer to be impractically long.
 
 > [!warning] Lowest mode cutoff
-> Increasing the `ChamferWidth` will also raise the cutoff frequency of the lowest propagating mode. This adjustment may push the design outside the recommended frequency range for the reference commercial waveguide. Therefore, when we need to increase the `ChamferWidth`, it's crucial to verify the lowest mode cutoff frequency. To ensure that the cutoff frequency is within acceptable limits, consider returning to the initial design stage and increasing the `PolarizerSide`.
+> Increasing the `chamferWidth` will also raise the cutoff frequency of the lowest propagating mode. This adjustment may push the design outside the recommended frequency range for the reference commercial waveguide. Therefore, when we need to increase the `chamferWidth`, it's crucial to verify the lowest mode cutoff frequency. To ensure that the cutoff frequency is within acceptable limits, consider returning to the initial design stage and increasing the `polarizerSide`.
 
-Assuming that the mode phase lag per unit length is roughly length-invariant, we can set up a post-processing calculation to determine `PolarizerLength`.
+Assuming that the mode phase lag per unit length is roughly length-invariant, we can set up a post-processing calculation to determine `polarizerLength`.
 
 > [!note] Mode phase lag per unit length
 > The assumption that the mode phase lag per unit length remains constant is likely an oversimplification which helps with rough calculations. It seems more likely that the propagation constants of individual modes change as the wave travels down the polarizer, causing the second derivative of mode phase lag with respect to length to be non-zero, i.e. mode phase lag per unit length not to be length-invariant.
@@ -71,7 +71,7 @@ The feeding waveguide is excited by an ordinary waveguide port with two modes at
 Since the polarizer alone does not efficiently radiate outward from its structure, it is necessary to incorporate an additional square outlet to guide the circularly polarized wave. This modification allows for the evaluation of far-field properties of the emitted wave, such as the radiation pattern and axial ratio.
 
 > [!note] Outlet length
-> A parameter sweep of `OutletLength` from 30 mm to 100 mm, in 10 mm increments, demonstrated that variations in far-field properties are negligible. As a result, further optimization of this parameter is unnecessary. However, including at least the 30 mm square waveguide section is recommended, as the difference between having no outlet and a 30 mm outlet is the only significant impact observed.
+> A parameter sweep of `outletLength` from 30 mm to 100 mm, in 10 mm increments, demonstrated that variations in far-field properties are negligible. As a result, further optimization of this parameter is unnecessary. However, including at least the 30 mm square waveguide section is recommended, as the difference between having no outlet and a 30 mm outlet is the only significant impact observed.
 
 # 4 Dual feed
 
@@ -113,7 +113,7 @@ The first step is a textbook practise on designing a simple right-angle transiti
 > > [!note] Coax to antenna probe transition
 > > While the outer conductor and insulation of the feeding coax are terminated at the waveguide's outer wall, the inner conductor extends through a drilled hole, forming a section of air-filled coaxial line with a length equal to the thickness of the waveguide's wall. To minimize impedance discontinuities and secure the signal integrity as it propagates to the antenna probe, it is important to select the radius of the drilled hole, which acts as the outer conductor for this section so that the air-filled coax has an impedance close to $50\ \Omega$.
 > >
-> > This also means that, when stripping the feeding coax of its outer conductor and dielectric, it is necessary to account for the air-filled coax length by removing a total length of `WaveguideThickness` + `Probe1Length`.
+> > This also means that, when stripping the feeding coax of its outer conductor and dielectric, it is necessary to account for the air-filled coax length by removing a total length of `waveguideThickness` + `probe1Length`.
 >
 > The probe's **distance from the back-short** is usually somewhat smaller than a quarter of a guide wavelength at center frequency. In free space (outside the waveguide), the distance to the backshort would be more than a quarter wavelength but all analyses of waveguides should be done from inside the guide, not looking at it from outside. Note that the wavefront in the guide appears to move faster than the speed of light, which is why the guide wavelength is more than in free space (remember, $v = f \cdot \lambda$).
 >
@@ -123,7 +123,7 @@ The first step is a textbook practise on designing a simple right-angle transiti
 > >
 > > $$\lambda_{\mathrm{g}} = \dfrac{\lambda_0}{\sqrt{1-\left(\dfrac{\lambda_0}{\lambda_{\mathrm{cutoff}}}\right)^2}},$$
 > >
-> > where $\lambda_{\mathrm{cutoff}} = 2A$ generally, $A$ is `PolarizerSide`.
+> > where $\lambda_{\mathrm{cutoff}} = 2A$ generally, $A$ is `polarizerSide`.
 > >
 > > For $f_0 = 5.5\ \mathrm{GHz}$ ($\sim \lambda_0 \approx 54.51\ \mathrm{mm}$) and $A = 50\ \mathrm{mm}$,
 > >
@@ -131,7 +131,7 @@ The first step is a textbook practise on designing a simple right-angle transiti
 >
 > The coax is typically $50\ \Omega$ impedance, whereas the waveguide might be $200\ \Omega$. Actually, the impedance of a waveguide is a complicated subject, there are three ways to calculate it, and it is a strong function of frequency. Therefore, some tuning must be applied. The tuning can be in the form of screws, or position of the probe, or the distance to the back short.
 >
-> What about the **length of the probe**, compared to the wavelength? The lower TE01 cutoff of a guide occurs when the broad dimension is half-wavelength in free space. At the centre of the band, the broad dimension is 3/4 wavelength, and the narrow dimension is (typically) 3/8 wavelength. The probe is typically 1/2 the narrow dimension in length, or 3/16 wavelength at centre frequency. However, this is also a parameter that can be varied to optimize a design, along with the diameter of the probe and whether it retains a dielectric jacket or is bare.
+> What about the **length of the probe**, compared to the wavelength? The lower TE01 cutoff of a guide occurs when the broad dimension is half-wavelength in free space. At the centre of the band, the broad dimension is 3/4 $\lambda$, and the narrow dimension is (typically) 3/8 $\lambda$. The probe is typically 1/2 the narrow dimension in length, or 3/16 $\lambda$ at centre frequency. However, this is also a parameter that can be varied to optimize a design, along with the diameter of the probe and whether it retains a dielectric jacket or is bare.
 >
 > > [!warning] Probe radius tuning
 > > The inner conductor of the air-filled coax is assumed to maintain the same diameter as the inner conductor of the preceding coaxial cable. To avoid impedance discontinuities, if adjustments to the probe's radius are needed during manufacturing (e.g., using a lathe), it is crucial to preserve the radius of this section. This can be achieved by marking the distance corresponding to the thickness of the waveguide after the insulation has been removed.
@@ -141,32 +141,32 @@ The first step is a textbook practise on designing a simple right-angle transiti
 The following notes down intermediate simulation results from different sweeps and conclusions on how the individual parameters influence the probe's reflection.
 
 1. Probe length
-	- `Probe1Distance`: 16 mm
-	- `Probe1Length`: {8, 10, 12, 14, 16} mm
-	- `WaveguideLength`: 100 mm
+	- `probe1Distance`: 16 mm
+	- `probe1Length`: {8, 10, 12, 14, 16} mm
+	- `waveguideLength`: 100 mm
 	- **S-parameters:** Certain values cause resonances to emerge, causing dips
 	- **Radiation pattern:** Variations are minimal.
 2. Probe distance
-	- `Probe1Distance`: {10, 12, 14, 16, 18, 20} mm
-	- `Probe1Length`: 10 mm
-	- `WaveguideLength`: 100 mm
+	- `probe1Distance`: {10, 12, 14, 16, 18, 20} mm
+	- `probe1Length`: 10 mm
+	- `waveguideLength`: 100 mm
 	- **S-parameters:** Non-uniform creation of a resonance above 6 GHz
 	- **Radiation pattern:** Variations are more significant but still small.
 3. Waveguide length
-	- `Probe1Distance`: 16 mm
-	- `Probe1Length`: 10 mm
-	- `WaveguideLength`: {100, 110, 120, 130, 140, 150, 160} mm
+	- `probe1Distance`: 16 mm
+	- `probe1Length`: 10 mm
+	- `waveguideLength`: {100, 110, 120, 130, 140, 150, 160} mm
 	- **S-parameters:** Uniform shifts in frequency
 	- **Radiation pattern:** Variations are significant - the beam is being tilted towards the propagation axis.
 4. Combined sweep
-	- `Probe1Distance`: {14, 15, 16, 17, 18} mm
-	- `Probe1Length`: {8, 9, 10, 11, 12 ,13} mm
-	- `WaveguideLength`: 130 mm
+	- `probe1Distance`: {14, 15, 16, 17, 18} mm
+	- `probe1Length`: {8, 9, 10, 11, 12 ,13} mm
+	- `waveguideLength`: 130 mm
 	- **S-parameters:** Significant changes, yet inconclusive due to many parameter variations
 	- **Radiation pattern:** Variations are small, the originally estimated values have been chosen for good performance.
 
 > [!info]- Radiation pattern (irrelevant)
-> For the radiation pattern, sweeping the parameters `Probe1Distance` and `Probe1Length` were not nearly as important as sweeping the `WaveguideLength` values. At first, the waveguide section was too short causing a severe beam tilt which can be fixed only by increasing the length. It is also worth noting that increasing `WaveguideLength` further, beyond the "sweet spot" yielding a front-facing beam, the beam's steering tendency was preserved, resulting in it being tilted to the other side.
+> For the radiation pattern, sweeping the parameters `probe1Distance` and `probe1Length` were not nearly as important as sweeping the `waveguideLength` values. At first, the waveguide section was too short causing a severe beam tilt which can be fixed only by increasing the length. It is also worth noting that increasing `waveguideLength` further, beyond the "sweet spot" yielding a front-facing beam, the beam's steering tendency was preserved, resulting in it being tilted to the other side.
 > These findings are probably irrelevant in the final design, where the coax-to-waveguide adapter is terminated by a port and directly connected to the polarizer, and inherent to the slightly inappropriate determination of proper guided wave generation by looking at the radiation pattern of the adapter's open end.
 
 ### Optimization
@@ -179,11 +179,11 @@ The table below shows the theoretical values of the single feed parameters expre
 | Probe length   | $\approx 3\lambda_0/16$    | $10.22\ \mathrm{mm}$   | $12.22\ \mathrm{mm}$ |
 
 > [!info] Comments on deviations from the guidelines
-> The deviation of `Probe1Length` from its guideline value is relatively significant. However, this specific guideline was taken with a grain of salt from the beginning since it was vaguely derived from the standard geometry of rectangular waveguides.
+> The deviation of `probe1Length` from its guideline value is relatively significant. However, this specific guideline was taken with a grain of salt from the beginning since it was vaguely derived from the standard geometry of rectangular waveguides.
 
 ### Practical considerations (feed length)
 
-Apart from the geometrical parameters of the probe, `WaveguideLength` also directly impacts the reflection. This has neither a general guideline nor a direct impact on the waveform of the resulting S-parameters but it shifts the graph in frequency. This allows for the choice of a value that is convenient enough that the minima fits into the design frequency band. However, the final value must account for the practical aspect of leaving enough space for further modelling the grating polarizer and Port 2. Following the guideline values of the individual parts, the overall waveguide length was set to $140\ \mathrm{mm}$, which should accommodate the whole design nicely.
+Apart from the geometrical parameters of the probe, `waveguideLength` also directly impacts the reflection. This has neither a general guideline nor a direct impact on the waveform of the resulting S-parameters but it shifts the graph in frequency. This allows for the choice of a value that is convenient enough that the minima fits into the design frequency band. However, the final value must account for the practical aspect of leaving enough space for further modelling the grating polarizer and Port 2. Following the guideline values of the individual parts, the overall waveguide length was set to $140\ \mathrm{mm}$, which should accommodate the whole design nicely.
 
 > [!note] Choice of waveguide length
 >
@@ -191,11 +191,11 @@ Apart from the geometrical parameters of the probe, `WaveguideLength` also direc
 >
 > $$\lambda_{\mathrm{g}}/4 + 3\lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}} = 9\lambda_{\mathrm{g}}/4 \approx 146.28\ \mathrm{mm},$$
 >
-> which, rounded down to the nearest order of tens, is the finally chosen number.
+> which, rounded to the nearest order of tens, is the finally chosen number.
 
 ### Result
 
-For the reasons outlined above, the parameter `WaveguideLength` was kept at the considered value, leaving `Probe1Length` and `Probe1Distance` as the remaining optimization variables. Their final values have been reasoned for in the discussion above.
+For the reasons outlined above, the parameter `waveguideLength` was kept at the considered value, leaving `probe1Length` and `probe1Distance` as the remaining optimization variables. Their final values have been reasoned for in the discussion above.
 
 Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < -12.4\ \mathrm{dB}$.
 
@@ -225,3 +225,39 @@ In terms of reflection coefficient, the addition of grating seems to dampen the 
 Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < \xi\ \mathrm{dB}$
 
 ## 4.3 Second feed
+
+# 5 Horn antenna
+
+**Target gain:** 15 dBi
+The design of a horn antenna is a simple and well-documented step of the design. The most recent and relevant review of theory behind the design of an optimal conical horn antenna was done in 2013 by [Aboserwal et al.](https://ieeexplore.ieee.org/document/6492234) In this paper, authors give an extensive look into the problematic of aperture phase distribution and accurate modelling given desired optimal gain.
+
+- N. A. Aboserwal, C. A. Balanis and C. R. Birtcher, "Conical Horn: Gain and Amplitude Patterns," in *IEEE Transactions on Antennas and Propagation*, vol. 61, no. 7, pp. 3427-3433, July 2013, doi: 10.1109/TAP.2013.2256453.
+
+However, for practical purposes, the tool Antenna Magus was utilized. This design software gives very quick and convenient parametric results for all standard antennas, most likely following design guidelines such as those given in scientific publications, and provides the designer with the ability to "tweak" certain parameters to suite the design requirements. Nevertheless, this tweaking ability of Antenna Magus is restricted by the data set used for the training of neural networks which perform these adjustments. Since this design uses a non-standard geometry (transitioning from a square waveguide to a conical antenna) with an abnormally wide waveguide, it is necessary to take the parametric result from Antenna Magus as a mere reference which is then to be adopted in the actual geometry. *Waveguide-fed conical horn antenna* design parameters from Antenna Magus are:
+
+- Waveguide diameter `Dg = 41.64 mm` (maximum for tweaking)
+- Waveguide length `Lg = 54.51 mm`
+- Flare diameter `Df = 134.8 mm`
+- Flare length `Lf = 68.65`
+
+These parameters were then used to manually model the conical antenna with a square waveguide feed with the exception of setting `Dg = 1.33 * waveguideSide = 66.5 mm`.
+
+### Effects of individual parameters
+
+For this design, the following parameter sweeps have been simulated to determine the impact their alteration effects.
+
+1. Flare diameter:
+	- `flareLength`: 70 mm
+	- `flareDiameter`: {115, 120, 125, 130, 135, 140, 145} mm
+	- **Gain:** The sweet spot seems to be at the value of 130 mm
+		- This corresponds to the flare angle of $\alpha \approx 27.67\ \mathrm{deg}$
+2. Flare length
+	- `flareLength`: {60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110} mm
+	- `flareDiameter`: 135 mm
+	- **Gain:** Continuously proportional increase without saturation.
+3. Best combinations (both corresponding to $\alpha \approx 27.67\ \mathrm{deg}$)
+	- `feedLength = 60`, `feedDiameter = 120` leads to gain about 14.97 dBi
+	- `feedLength = 70`, `feedDiameter = 130` leads to gain about 15.7 dBi
+		- Chosen to leave a gain margin
+
+> [!warning] Smaller cone diameter `Dg` changed to `1.33 * waveguideSide` so the optimal parameter combination for gain might be different.

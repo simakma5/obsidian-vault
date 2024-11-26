@@ -1,3 +1,39 @@
+# 2024/11/18
+Dobrý den,  
+  
+tak jsem prošel email, velmi dobrá práce!!  
+Zdá se tedy, že nápad s Design Studiem budeme muset pro nejednoznačnost opustit a simulovat celou strukturu.  
+To nakonec není zásadní problém, protože není tak velká. Ještě by asi šlo stáhnout trochu počet buněk (snížit meshcells/lambda na třeba 12).  
+  
+Předpokládejme, že vyzařovací část je OK a hlavními parametry je nyní mřížka.  
+  
+Tam jde ale v podstatě jen o dva parametry - počet rovnoměrně rozložených drátů a jejich průměr.  
+  
+Počet drátů by se na začátku stanovil v diskrétních stavech (např. 8, 10, 15) a optimalizoval by se jejich průměr (možná lépe přes parsweep). Pak by se dotáhly parametry feedů. Tím by se eliminovalo to pronikání do stěny...?  
+  
+A nebo na to pro daný počet drátů nasadit rovnou optimalizaci (průměr a vzdálenost feedů - 3 až 4 parametry).  
+  
+Píšu dost narychlo, snad je vše, co jsem měl na mysli jasné... :)  
+  
+- [ ] ještě bych si do výpočtu nasadil postprocesingová makra na LHC a RHC pro obě buzení, ať to dělá grafy..  
+  
+Mějte se fajn, zdraví  
+Pavel Hazdra
+
+> Dobrý den,  
+>   
+> přináším novou várku poznatků :) Za uplynulý týden a kousek se mi podařilo učinit hned několik kroků, o kterých bych Vás rád zpravil.  
+>   
+> Jako první jsem se zabýval napojením více projektů "za sebe" pomocí Design Studia, u čehož jsem strávil notnou řádku hodin. Zabýval jsem se hlavně problematikou toho, jak odsimulovat napájecí část tak, abych získal přenosové S-parametry, tj. aby měla moje "krabička" v Design Studiu výstupy, ale bez výsledku. Aby totiž toho dosáhl, potřebuji v projektu definovat aktivní port se dvěma módy. Krabička je potom čtyřbranem (dva koaxiální vstupy s jedním módem a dva výstupy v podobě dvou módů vlnovodného portu na výstupu). V tomto řešení ale bohužel S-parametry absolutně neodpovídají výsledkům s otevřeným zakončením a vykazují rezonance, jak kdyby byla napájecí část na výstupu zakončená stěnou. Provedl jsem tedy srovnání S-parametrů se všemi různými zakončeními a to mě téměř utvrdilo v tom, že optimalizace napájení v odděleném projektu a následné napojení pomocí Design Studia nebude možné. Pro nahlédnutí na výsledky tohoto nešťastného experimentu prosím vizte archiv "boundaries_comparison.zip", kde jsou srovnány průběhy odrazu přechodu s jedním portem, konkrétně zakočeného bez portu s okrajovou podmínkou `z=open (add space)`, bez portu s `z=open` (tuším řešeného bezodraznou stěnnou), s aktivním portem (byť nebuzeného v solveru) a s portem v módu monitor only. Zpočátku jsem zatvrzele věřil, že se mi to přeci musí nějak podařit, ale už mi došly nápady. Posledním hřebíkem do rakve byla simulace, kde jsem porovnal průběh odrazu získaného z Design Studia - napojením polarizéru na již duální přechod zakončený aktivním portem se dvěma módy, což je jediná možnost, jak získat potřebný čtyřbran - se simulací obdobného, byť manuálního, napojení v jednom projektu, který jsem odsimuloval najednou. Rozumné výsledky bohužel dává pouze druhá část, zatímco výsledky Design Studia se víceméně shodují s odrazem přechodu zakončeného portem (vizte přílohu "design_studio.zip"). Obávám se tak, že až budeme potřebovat simulovat celou strukturu, budeme tak muset činit v jednom projektu.  
+>   
+> Pro odladění parametrů duálního přechodu snad ale budu moci optimalizovat přechod oddělený s otevřeným koncem. Tato varianta má určité neduhy, např. odraz od openu na konci, který v reálné struktuře nebude, ale pro optimalizaci parametrů sond a mřízky by to mohlo postačit. Nicméně ať již budu simulovat přechod oddělený, nebo spojený s polarizérem, jeho optimalizace představuje určitý problém: K optimalizaci duálního přechodu je zapotřebí ladit průměr drátů v mřížce a jejich rozestup, což ale znamená, že mnoho optimalizačních kroků pracuje s nesprávnou kombinací parametrů, neboť algoritmus nezohledňuje, zda-li danou kombinací nevzniká velká mezera kolem mřížky, resp. dráty nepronikají do stěn vlnovodu. Pro tyto účely by bylo zapotřebí po každém nastavení nových parametrů (v každém optimalizačním kroku) zkontrolovat, zda-li není zapotřebí zvýšit, resp. snížit, počet drátku v mřížce. Také ještě existuje scénář, kdy mezera mezi dráty (měřena střed od středu) je menší než průměr jednoho drátum tj. z mřížky se stane stěna. Uvědomuji si, že mnoho z těchto scénářů by pravděpodobně optimalizace rovnou vyloučila, neboť by se to projevilo na S-parametrech, ale měl jsem chuť tyto zbytečné kalkulace rovnou vyloučit a získat tak efektivnější optimalizaci. To ovšem vyžaduje značný zásah do optimalizačního algoritmu, čehož se mi podařilo docílit zapomocí hned dvou skriptovacích jazyků. Jako první jsem si napsal VBA skript, který zkontroluje geometrii po nastavení nových hodnot v daném optimalizačním kroku a případně upraví hodnotu parametru `WireCount`, čímž po updatu struktury doplní, resp. zúží, mřížku. K tomu, abych mohl takto zasahovat do optimalizace, jsem napsal remote control skript v Pythonu, pro který jsem zjistil, že CST poskytuje podporu v podobě balíčků automaticky instalovaných společně se simulačním softwarem. Tento skript naleznete společně s VBA skriptem pro úpravu mřížky v archivu "dynamic_optimization.zip". Skript vlastně provádí samotný optimalizační algoritmus, což mi umožňuje si definovat vlastní cílovou funkci. V rámci této funkce potom nastaví příslušné parametry (pomocí dalšího VBA skriptu), provede geometrickou kontrolu s případnou změnou mřížky, spustí simulaci a vyhodnotí výsledky. Jako metodu vyhodnocení jsem zvolil jakousi ad-hoc implementaci "Maximum Difference", přičemž všechny parametry optimalizace a samotného modelu se mi podařilo vytáhnout z těla skriptu navrch programu do konstant tak, abych byl celý proces parametrizovaný.  
+>   
+> Jak jsem již zmiňoval dříve, vedu si průběžně jakési "design notes" v markdownovém editoru. Abych si nepřidělával zbytečnou práci, zveřejnil jsem svůj Git repozitář obsahující moje poznámky a konkrétní odkaz jsem vložil do našeho sdíleného dokumentu. Pokaždé, co tedy v budoucnu provedu změny ve svých design notes, budete mít rovnou přístup k nejnovější verzi.  
+>   
+> S pozdravem  
+> Martin Šimák  
+>   
+> P.S. Ten Git repozitář obecně slouží jako verzovaná záloha všech mých poznámek a původně neměl být veřejný. Přišlo mi to však jako nejjednodušší řešení a žádné tajnosti si tam neuchovávám. Nicméně jsem Vám chtěl zanechat tento disclaimer, že za 100 % toho obsahu neručím. kdyby mi tam někde zůstala hloupá poznámka pod čarou :))
 # 11/04/2024
 
 Dobrý den, komentuji v textu..
