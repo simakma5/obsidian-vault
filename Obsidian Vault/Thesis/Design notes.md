@@ -136,6 +136,10 @@ The first step is a textbook practise on designing a simple right-angle transiti
 > > [!warning] Probe radius tuning
 > > The inner conductor of the air-filled coax is assumed to maintain the same diameter as the inner conductor of the preceding coaxial cable. To avoid impedance discontinuities, if adjustments to the probe's radius are needed during manufacturing (e.g., using a lathe), it is crucial to preserve the radius of this section. This can be achieved by marking the distance corresponding to the thickness of the waveguide after the insulation has been removed.
 
+### Boundary consideration
+
+During simulation, special attention must be paid to the boundary settings, specifically at the open end of the feeding structure. Considering that the structure will be directly connected to a waveguide polarizer, we can anticipate a small reflection to be introduced at the outlet when put together. This reflection, however, is not a subject of feed tuning and will be dealt with later during the final optimization. Therefore, the open boundary should not be modelled by the addition of computational space ("open (add space)" boundary in CST). This would act as an open end which introduces great reflection and therefore deteriorates the simulation results. The open boundary should be modelled using a non-reflective wall, i.e., the "open" boundary in CST.
+
 ### Effects of individual parameters
 
 The following notes down intermediate simulation results from different sweeps and conclusions on how the individual parameters influence the probe's reflection.
@@ -145,59 +149,27 @@ The following notes down intermediate simulation results from different sweeps a
 	- `probe1Length`: {8, 10, 12, 14, 16} mm
 	- `waveguideLength`: 100 mm
 	- **S-parameters:** Certain values cause resonances to emerge, causing dips
-	- **Radiation pattern:** Variations are minimal.
 2. Probe distance
 	- `probe1Distance`: {10, 12, 14, 16, 18, 20} mm
 	- `probe1Length`: 10 mm
 	- `waveguideLength`: 100 mm
 	- **S-parameters:** Non-uniform creation of a resonance above 6 GHz
-	- **Radiation pattern:** Variations are more significant but still small.
-3. Waveguide length
-	- `probe1Distance`: 16 mm
-	- `probe1Length`: 10 mm
-	- `waveguideLength`: {100, 110, 120, 130, 140, 150, 160} mm
-	- **S-parameters:** Uniform shifts in frequency
-	- **Radiation pattern:** Variations are significant - the beam is being tilted towards the propagation axis.
-4. Combined sweep
-	- `probe1Distance`: {14, 15, 16, 17, 18} mm
-	- `probe1Length`: {8, 9, 10, 11, 12 ,13} mm
-	- `waveguideLength`: 130 mm
-	- **S-parameters:** Significant changes, yet inconclusive due to many parameter variations
-	- **Radiation pattern:** Variations are small, the originally estimated values have been chosen for good performance.
-
-> [!info]- Radiation pattern (irrelevant)
-> For the radiation pattern, sweeping the parameters `probe1Distance` and `probe1Length` were not nearly as important as sweeping the `waveguideLength` values. At first, the waveguide section was too short causing a severe beam tilt which can be fixed only by increasing the length. It is also worth noting that increasing `waveguideLength` further, beyond the "sweet spot" yielding a front-facing beam, the beam's steering tendency was preserved, resulting in it being tilted to the other side.
-> These findings are probably irrelevant in the final design, where the coax-to-waveguide adapter is terminated by a port and directly connected to the polarizer, and inherent to the slightly inappropriate determination of proper guided wave generation by looking at the radiation pattern of the adapter's open end.
 
 ### Optimization
 
 The table below shows the theoretical values of the single feed parameters expressed as fractions of wavelengths along with the values obtained by optimizing with the goal of minimizing reflection in the design frequency band. The initial values for optimization were set to the theoretical ones.
 
-| Parameter      | Guideline                  | Value                  | Optimized value      |
-| -------------- | -------------------------- | ---------------------- | -------------------- |
-| Probe distance | $< \lambda_{\mathrm{g}}/4$ | $< 16.25\ \mathrm{mm}$ | $15.01\ \mathrm{mm}$ |
-| Probe length   | $\approx 3\lambda_0/16$    | $10.22\ \mathrm{mm}$   | $12.22\ \mathrm{mm}$ |
+| Parameter        | Guideline                  | Value                  | Optimized value      |
+| ---------------- | -------------------------- | ---------------------- | -------------------- |
+| `probe1Distance` | $< \lambda_{\mathrm{g}}/4$ | $< 16.25\ \mathrm{mm}$ | $14.53\ \mathrm{mm}$ |
+| `probe1Length`   | $\approx 3\lambda_0/16$    | $10.22\ \mathrm{mm}$   | $11.67\ \mathrm{mm}$ |
 
 > [!info] Comments on deviations from the guidelines
 > The deviation of `probe1Length` from its guideline value is relatively significant. However, this specific guideline was taken with a grain of salt from the beginning since it was vaguely derived from the standard geometry of rectangular waveguides.
 
-### Practical considerations (feed length)
+### Results
 
-Apart from the geometrical parameters of the probe, `waveguideLength` also directly impacts the reflection. This has neither a general guideline nor a direct impact on the waveform of the resulting S-parameters but it shifts the graph in frequency. This allows for the choice of a value that is convenient enough that the minima fits into the design frequency band. However, the final value must account for the practical aspect of leaving enough space for further modelling the grating polarizer and Port 2. Following the guideline values of the individual parts, the overall waveguide length was set to $140\ \mathrm{mm}$, which should accommodate the whole design nicely.
-
-> [!note] Choice of waveguide length
->
-> The consideration reasoning and the following choice come from adding up all distances (Port 1 to back-short, grating to Port 1, and Port 2 to grating) and leaving one whole guide wavelength of the generated wave propagation settling, i.e.,
->
-> $$\lambda_{\mathrm{g}}/4 + 3\lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}}/4 + \lambda_{\mathrm{g}} = 9\lambda_{\mathrm{g}}/4 \approx 146.28\ \mathrm{mm},$$
->
-> which, rounded to the nearest order of tens, is the finally chosen number.
-
-### Result
-
-For the reasons outlined above, the parameter `waveguideLength` was kept at the considered value, leaving `probe1Length` and `probe1Distance` as the remaining optimization variables. Their final values have been reasoned for in the discussion above.
-
-Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < -12.4\ \mathrm{dB}$.
+- Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < -15\ \mathrm{dB}$.
 
 ## 4.2 Grating
 
@@ -214,17 +186,37 @@ As Karki et al. describe in their paper, the progression of $|S_{11}|$ with incr
 
 Although it might seem compelling to conclude that $s \approx \lambda_{\mathrm{g}}/4$ is the best candidate with respect to the low reflection and reasonable size (i.e., fabrication cost) there is another effect of varying $s$ on the feed's performance which is also the core idea of the feeding probes' displacement: minimizing crosstalk $|S_{21}|$. The mutual probe coupling decreases inversely proportional to their distance, ergo to the distance between Port 1 and the grating as well. However, the effect of diminishing $|S_{21}|$ with increasing distance begins to sature around distance somewhat larger than $s = \lambda_{\mathrm{g}}/2$, resulting in the second reflection minimum at $3\lambda_{\mathrm{g}}/4$ being a reasonable tradeoff between minimizing both $|S_{11}|$ and $|S_{21}|$.
 
-| Parameter        | Guideline                 | Theoretical value    | Optimal value                   |
-| ---------------- | ------------------------- | -------------------- | ------------------------------- |
-| Grating distance | $3\lambda_{\mathrm{g}}/4$ | $48.76\ \mathrm{mm}$ | $\texttt{unknown}\ \mathrm{mm}$ |
+| Parameter         | Guideline                 | Theoretical value    | Optimal value        |
+| ----------------- | ------------------------- | -------------------- | -------------------- |
+| `gratingDistance` | $3\lambda_{\mathrm{g}}/4$ | $48.76\ \mathrm{mm}$ | $51.52\ \mathrm{mm}$ |
 
-### Result
+### Results
 
-In terms of reflection coefficient, the addition of grating seems to dampen the dips in the design band and introduce new resonant peaks slightly outside the band.
+In terms of reflection coefficient, the addition of grating seems to dampen the dips in the design band and introduce new resonant peaks which must be pushed outside the band.
 
-Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < \xi\ \mathrm{dB}$
+- Achieved reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < -12\ \mathrm{dB}$
 
 ## 4.3 Second feed
+
+In theory, the introduction of Probe 2 into the cavity doesn't affect Probe 1 radiation. At the same time, Probe 2 is not expected to by affected by `gratingDistance` and its geometry should be very similar. Although these are hypotheticals, these logically sound expectations yield a very good initial value estimates for the final optimization.
+
+However, tuning ofthe grating mesh parameters `gratingGap` and `wireDiameter` affects the entire S-matrix (both reflections and crosstalk). There parameters should be chosen by an optimization process performing a trade-off between low $|S_{11}|$ and $|S_{21}|$.
+
+| Parameter         | Optimal value           |
+| ----------------- | ----------------------- |
+| `probe1Distance`  | $14.06801\ \mathrm{mm}$ |
+| `probe1Length`    | $12.19318\ \mathrm{mm}$ |
+| `probe2Distance`  | $14.30893\ \mathrm{mm}$ |
+| `probe2Length`    | $11.96697\ \mathrm{mm}$ |
+| `gratingDistance` | $51.5183\ \mathrm{mm}$  |
+| `gratingGap`      | $1.90274\ \mathrm{mm}$  |
+| `wireDiameter`    | $1.17699\ \mathrm{mm}$  |
+
+### Results
+
+- Probe 1 reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{11}| < -10.5\ \mathrm{dB}$
+- Probe 2 reflection: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{22}| < -14.6\ \mathrm{dB}$
+- Probe coupling: $\forall f \in (5\ \mathrm{GHz}, 6\ \mathrm{GHz}): |S_{21}| < -70\ \mathrm{dB}$
 
 # 5 Horn antenna
 
@@ -255,9 +247,23 @@ For this design, the following parameter sweeps have been simulated to determine
 	- `flareLength`: {60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110} mm
 	- `flareDiameter`: 135 mm
 	- **Gain:** Continuously proportional increase without saturation.
-3. Best combinations (both corresponding to $\alpha \approx 27.67\ \mathrm{deg}$)
-	- `feedLength = 60`, `feedDiameter = 120` leads to gain about 14.97 dBi
-	- `feedLength = 70`, `feedDiameter = 130` leads to gain about 15.7 dBi
-		- Chosen to leave a gain margin
 
-> [!warning] Smaller cone diameter `Dg` changed to `1.33 * waveguideSide` so the optimal parameter combination for gain might be different.
+### Results
+
+The target gain can be achieved by various parameter combinations while for each value of flare length, the gain-to-flare-diameter dependence is a concave function with a well-defined local maximum - for illustration, refer to Figure 3 in Aboserwal et al. This maximum might correspond to the preservation of specific angle but that was not proven by the paper.
+
+The decision is then a trade-off between comfortable achievement of the target gain and minimizing the antenna size. Two favourable combinations (both corresponding to $\alpha \approx 27.67\degree$) were found:
+
+1. `feedLength = 60`, `feedDiameter = 120` yields $G \approx 15\ \mathrm{dBi}$,
+2. `feedLength = 70`, `feedDiameter = 130` yields $G = 15.8\ \mathrm{dBi}$,
+
+while the second (more generous) one was chosen for the final design to leave some gain margin.
+
+# 6 Entire structure
+
+First simulation attempts after simply putting everything together:
+
+- $|S_{11}| < -\xi\ \mathrm{dB}$
+- $|S_{22}| < -\xi\ \mathrm{dB}$
+- $|S_{21}| < -\xi\ \mathrm{dB}$
+- $G = \xi\ \mathrm{dBi}$
